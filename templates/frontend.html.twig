@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Udemy - {% block title %}{% endblock %}</title>
+</head>
+<body>
+    <div style="min-height:100vh" class="d-flex flex-column justify-content-between">
+        <header style="height: 5vh;">
+            <nav class="navbar bg-body-tertiary p-lg-0">
+                <div class="container-fluid">
+                    <div style="width:100%;" class="d-flex justify-content-between align-items-center ms-5 my-3">
+                        <a class="navbar-brand" href="#">
+                            <img src="https://imgs.search.brave.com/q4ee-bllmKpi8aUxZJbBGQoCkFjA7b4M2IOmEL01otY/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzU3Lzlk/LzczLzU3OWQ3Mzhm/MjBjOTM0MTg1ZTFh/NDE5YTdhMmQ4ZmYy/LS1sb2dvLWZpc2gt/Zi1sb2dvLmpwZw" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        </a>
+                        <ul class="navbar-nav flex-row gap-3 me-5">
+                            <li class="nav-item"><a class="nav-link" href="{{ path('home_inicio') }}">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('genders_home') }}">Géneros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('platforms_home') }}">Plataformas</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="mt-5" style="min-height:90vh;">
+            {% block main %}{% endblock %}
+        </main>
+        <footer style="height:5vh" class="ps-3 d-flex align-items-center">© Nacor Diego 2023</footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

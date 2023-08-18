@@ -10,7 +10,7 @@ class TemplateController extends AbstractController {
     #[Route('/template', name: 'template_inicio')]
     public function index(): Response
     {
-        die('Controlador template');
+        return $this->render('template/index.html.twig');
     }
 
     // Ruta con parametros

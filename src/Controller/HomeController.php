@@ -11,7 +11,8 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home_inicio')]
     public function Home(): Response
     {
-        die("Hola desde el controlador HomeController");
+        $array = ['cs','lol','minecraft','among us','pato'];
+        return $this->render('home/index.html.twig',['array' => $array]);
     }
 
     #[Route('/home/saludo', name: 'home_saludo')]
