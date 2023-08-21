@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request; //Nos va a ayudar a recibir los campos de nuestro form.
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -33,7 +34,7 @@ class FormController extends AbstractController
         return $this->render('form/simple.html.twig', compact('formulario'));
     }
     #[Route('/form/bootstrap', name: 'form_bootstrap')]
-    public function bootstrap(): Response
+    public function bootstrap( Request $request ): Response
     {
         // Creo un formulario mediante creaFormBuilder.
         $form = $this->createFormBuilder(null)
@@ -45,6 +46,15 @@ class FormController extends AbstractController
                     ->add('url',UrlType::class,['label'=>'Sitio web'])
                     ->add('addGame',SubmitType::class)
                     ->getForm();
+
+        $form->handleRequest($request); //Permite recibir los campos del form.
+        //Si viene la petición POST del form
+        if($form->isSubmitted()){
+            $campos = $form->getData(); //Guarda la data del form en $campos.
+            print_r($campos);
+            echo "Nombre:".$campos['nombre']; //Se utiliza esta forma cuando a createFormBuilder se le pasa null. Con entidades es distinto.
+            die;
+        }
         return $this->render('form/bootstrap.html.twig', compact('form'));
     }
 }

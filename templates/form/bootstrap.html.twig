@@ -3,8 +3,36 @@
 {% block title %}Formulario con Bootstrap{% endblock %}
 
 {% block main %}
-    <div class="container d-flex flex-column justify-content-center align-items-center mt-5">
+    <div class="container d-flex flex-column justify-content-center align-items-center">
         <h1 class="text-center">Formulario con Bootstrap</h1>
-
+        <form style="width:50%;" class="mt-5" method="POST" action="{{url('form_bootstrap')}}">
+            <div class="form-group d-flex flex-column">
+                <label class="mb-3" for="form_nombre">
+                    Nombre:
+                    {{form_widget(form.nombre, {"attr":{"placeholder":"Nombre"}})}}
+                </label>
+                <label class="mb-3" for="form_imagen">
+                    Imagen:
+                    {{form_widget(form.imagen)}}
+                </label>
+                <label class="mb-3" for="form_descripcion">
+                    Descripción:
+                    {{form_widget(form.descripcion, {"attr":{"placeholder":"Descripción"}})}}
+                </label>
+                <label class="mb-3" for="form_plataforma">
+                    Plataforma:
+                    {{form_widget(form.plataforma)}}
+                </label>
+                <label class="mb-3" for="form_genero">
+                    Género:
+                    {{form_widget(form.genero)}}
+                </label>
+                <label class="mb-3" for="form_url">
+                    Sitio web:
+                    {{form_widget(form.url, {"attr":{"placeholder":"Url"}})}}
+                </label>
+                <input type="submit" value="Enviar" title="Enviar" class="btn btn-success" />
+            </div>
+        </form>
     </div>
 {% endblock %}
