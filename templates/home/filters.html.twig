@@ -1,10 +1,10 @@
 <div class="filters d-flex justify-content-center mt-5">
     <form action="" style="width: 90%;" class="row">
-        <label class="col-12 col-lg-3 d-flex flex-column" for="name">
+        <label class="col-12 col-lg-4 d-flex flex-column" for="name">
             Nombre
             <input type="text" name="name" id="name" placeholder="Ingrese un nombre...">
         </label>
-        <label class="col-12 col-lg-3 d-flex flex-column" for="gender">
+        <label class="col-12 col-lg-2 d-flex flex-column" for="gender">
             Géneros
             <select name="gender" id="gender">
                 <option value="0">Seleccionar..</option>
@@ -13,7 +13,7 @@
                 <option value="3">Aventura</option>
             </select>
         </label>
-        <label class="col-12 col-lg-3 d-flex flex-column" for="platforms">
+        <label class="col-12 col-lg-2 d-flex flex-column" for="platforms">
             Plataformas
             <select name="platforms" id="platforms">
                 <option value="0">Seleccionar..</option>
@@ -22,7 +22,7 @@
                 <option value="3">Play Station 5</option>
             </select>
         </label>
-        <label class="col-12 col-lg-3 d-flex flex-column" for="toOrder">
+        <label class="col-12 col-lg-2 d-flex flex-column" for="toOrder">
             Ordenar
             <select name="toOrder" id="toOrder">
                 <option value="0">Seleccionar..</option>
@@ -30,5 +30,11 @@
                 <option value="2">Descendente</option>
             </select>
         </label>
+        <div class="col-12 col-md-1 d-flex align-items-end">
+            <button style="width: 100%;" class="btn btn-primary">Filtrar</button>
+        </div>
+        <div class="col-12 col-md-1 d-flex align-items-end">
+            <button style="width: 100%;" class="btn btn-outline-dark">Limpiar</button>
+        </div>
     </form>
 </div>

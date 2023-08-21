@@ -24,6 +24,6 @@ class HomeController extends AbstractController
     #[Route('/home/despedida', name: 'home_despedida')]
     public function despedida(): Response
     {
-        die("hola me despido");
+        throw $this->createNotFoundException('Esta URL no está disponible');
     }
 }
