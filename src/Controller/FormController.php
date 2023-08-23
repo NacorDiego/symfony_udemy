@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Persona; //Importo la entidad persona.
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request; //Nos va a ayudar a recibir los campos de nuestro form.
@@ -46,15 +47,57 @@ class FormController extends AbstractController
                     ->add('url',UrlType::class,['label'=>'Sitio web'])
                     ->add('addGame',SubmitType::class)
                     ->getForm();
-
+        $submittedToken=$request->request->get('token'); //Permite recibir el token del formulario y guardarlo en la variable.
         $form->handleRequest($request); //Permite recibir los campos del form.
         //Si viene la petición POST del form
-        if($form->isSubmitted()){
-            $campos = $form->getData(); //Guarda la data del form en $campos.
-            print_r($campos);
-            echo "Nombre:".$campos['nombre']; //Se utiliza esta forma cuando a createFormBuilder se le pasa null. Con entidades es distinto.
-            die;
+        //if($form->isSubmitted())
+        if($form->isSubmitted()) //Controla que el token sea válido
+        {
+            if ($this->isCsrfTokenValid('generico',$submittedToken)) {
+                $campos = $form->getData(); //Guarda la data del form en $campos.
+                print_r($campos);
+                echo "Nombre:".$campos['nombre']; //Se utiliza esta forma para obtener los datos de un input en particular, cuando a createFormBuilder se le pasa null. Con entidades es distinto.
+                die;
+            } else {
+                $this->addFlash('css','danger'); //Agrego un msj flash con el css de un alert de bootstrap de color warning.
+                $this->addFlash('mensaje','La validación de token falló.'); //Agrego un msj flash con el texto del msj que quiero mostrar.
+                return $this->redirectToRoute('form_bootstrap'); //Redirecciono a la misma vista para que se recargue la página.
+            }
         }
-        return $this->render('form/bootstrap.html.twig', compact('form'));
+        return $this->render('form/bootstrap.html.twig', compact('form')); //Mediante el helper 'compact()' paso el $form al template
+    }
+    #[Route('/form/entity', name: 'form_entity')]
+    public function entity( Request $request ): Response
+    {
+        // Declaro una instancia de la entidad 'Persona'.
+        $persona = new Persona();
+        // Creo un formulario mediante creaFormBuilder relacionado a la entidad Persona (Ahora solo puedo crear campos relacionados a los atributos de la entidad).
+        $form = $this->createFormBuilder($persona)
+                    ->add('nombre',TextType::class, ['label'=>'Nombre'])
+                    ->add('imagen',TextType::class,['label'=>'Imagen'])
+                    ->add('descripcion',TextareaType::class,['label'=>'Descripción'])
+                    ->add('plataforma')
+                    ->add('genero')
+                    ->add('url',UrlType::class,['label'=>'Sitio web'])
+                    ->add('addGame',SubmitType::class)
+                    ->getForm();
+        $submittedToken=$request->request->get('token'); //Permite recibir el token del formulario y guardarlo en la variable.
+        $form->handleRequest($request); //Permite recibir los campos del form.
+        //Si viene la petición POST del form
+        //if($form->isSubmitted())
+        if($form->isSubmitted()) //Controla que el token sea válido
+        {
+            if ($this->isCsrfTokenValid('generico',$submittedToken)) {
+                $campos = $form->getData(); //Guarda la data del form en $campos.
+                print_r($campos);
+                echo "Nombre:".$campos['nombre']; //Se utiliza esta forma para obtener los datos de un input en particular, cuando a createFormBuilder se le pasa null. Con entidades es distinto.
+                die;
+            } else {
+                $this->addFlash('css','danger'); //Agrego un msj flash con el css de un alert de bootstrap de color warning.
+                $this->addFlash('mensaje','La validación de token falló.'); //Agrego un msj flash con el texto del msj que quiero mostrar.
+                return $this->redirectToRoute('form_entity'); //Redirecciono a la misma vista para que se recargue la página.
+            }
+        }
+        return $this->render('form/entity.html.twig', compact('form')); //Mediante el helper 'compact()' paso el $form al template
     }
 }
