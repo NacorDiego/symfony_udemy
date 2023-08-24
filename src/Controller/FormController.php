@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Persona; //Importo la entidad persona.
+use App\Entity\Game; //Importo la entidad Game.
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request; //Nos va a ayudar a recibir los campos de nuestro form.
@@ -14,11 +14,14 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class FormController extends AbstractController
 {
+    //FORMULARIO CLASICO SIN SYMFONY
     #[Route('/form', name: 'form_home')]
     public function index(): Response
     {
         return $this->render('form/index.html.twig');
     }
+
+    //FORMULARIO SIMPLE
     #[Route('/form/simple', name: 'form_simple')]
     public function simple(): Response
     {
@@ -34,6 +37,8 @@ class FormController extends AbstractController
                     ->getForm();
         return $this->render('form/simple.html.twig', compact('formulario'));
     }
+
+    //FORMULARIO BOOTSTRAP
     #[Route('/form/bootstrap', name: 'form_bootstrap')]
     public function bootstrap( Request $request ): Response
     {
@@ -66,13 +71,15 @@ class FormController extends AbstractController
         }
         return $this->render('form/bootstrap.html.twig', compact('form')); //Mediante el helper 'compact()' paso el $form al template
     }
+
+    //FORMULARIO ENTITY
     #[Route('/form/entity', name: 'form_entity')]
     public function entity( Request $request ): Response
     {
         // Declaro una instancia de la entidad 'Persona'.
-        $persona = new Persona();
+        $game = new Game();
         // Creo un formulario mediante creaFormBuilder relacionado a la entidad Persona (Ahora solo puedo crear campos relacionados a los atributos de la entidad).
-        $form = $this->createFormBuilder($persona)
+        $form = $this->createFormBuilder($game)
                     ->add('nombre',TextType::class, ['label'=>'Nombre'])
                     ->add('imagen',TextType::class,['label'=>'Imagen'])
                     ->add('descripcion',TextareaType::class,['label'=>'Descripción'])
