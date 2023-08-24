@@ -7,25 +7,25 @@
         <h1 class="text-center">Formulario Entity</h1>
         <form style="width:50%;" class="mt-5" method="POST" action="{{url('form_bootstrap')}}">
             <div class="form-group d-flex flex-column">
-                <label class="mb-3" for="form_nombre">
+                <label class="mb-3" for="form_name">
                     Nombre:
-                    {{form_widget(form.nombre, {"attr":{"placeholder":"Nombre"}})}}
+                    {{form_widget(form.name, {"attr":{"placeholder":"Nombre"}})}}
                 </label>
-                <label class="mb-3" for="form_imagen">
+                <label class="mb-3" for="form_image">
                     Imagen:
-                    {{form_widget(form.imagen)}}
+                    {{form_widget(form.image)}}
                 </label>
-                <label class="mb-3" for="form_descripcion">
+                <label class="mb-3" for="form_description">
                     Descripción:
-                    {{form_widget(form.descripcion, {"attr":{"placeholder":"Descripción"}})}}
+                    {{form_widget(form.description, {"attr":{"placeholder":"Descripción"}})}}
                 </label>
-                <label class="mb-3" for="form_plataforma">
+                <label class="mb-3" for="form_platform">
                     Plataforma:
-                    {{form_widget(form.plataforma)}}
+                    {{form_widget(form.platform)}}
                 </label>
-                <label class="mb-3" for="form_genero">
+                <label class="mb-3" for="form_gender">
                     Género:
-                    {{form_widget(form.genero)}}
+                    {{form_widget(form.gender)}}
                 </label>
                 <label class="mb-3" for="form_url">
                     Sitio web:

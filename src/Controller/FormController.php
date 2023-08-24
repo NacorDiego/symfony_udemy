@@ -80,11 +80,11 @@ class FormController extends AbstractController
         $game = new Game();
         // Creo un formulario mediante creaFormBuilder relacionado a la entidad Persona (Ahora solo puedo crear campos relacionados a los atributos de la entidad).
         $form = $this->createFormBuilder($game)
-                    ->add('nombre',TextType::class, ['label'=>'Nombre'])
-                    ->add('imagen',TextType::class,['label'=>'Imagen'])
-                    ->add('descripcion',TextareaType::class,['label'=>'Descripción'])
-                    ->add('plataforma')
-                    ->add('genero')
+                    ->add('name',TextType::class, ['label'=>'Name'])
+                    ->add('image',TextType::class,['label'=>'Image'])
+                    ->add('description',TextareaType::class,['label'=>'Description'])
+                    ->add('platform')
+                    ->add('gender')
                     ->add('url',UrlType::class,['label'=>'Sitio web'])
                     ->add('addGame',SubmitType::class)
                     ->getForm();
@@ -97,7 +97,7 @@ class FormController extends AbstractController
             if ($this->isCsrfTokenValid('generico',$submittedToken)) {
                 $campos = $form->getData(); //Guarda la data del form en $campos.
                 print_r($campos);
-                echo "Nombre:".$campos['nombre']; //Se utiliza esta forma para obtener los datos de un input en particular, cuando a createFormBuilder se le pasa null. Con entidades es distinto.
+                echo "Nombre:".$campos['name']; //Se utiliza esta forma para obtener los datos de un input en particular, cuando a createFormBuilder se le pasa null. Con entidades es distinto.
                 die;
             } else {
                 $this->addFlash('css','danger'); //Agrego un msj flash con el css de un alert de bootstrap de color warning.
