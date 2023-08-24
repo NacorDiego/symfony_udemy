@@ -90,14 +90,12 @@ class FormController extends AbstractController
                     ->getForm();
         $submittedToken=$request->request->get('token'); //Permite recibir el token del formulario y guardarlo en la variable.
         $form->handleRequest($request); //Permite recibir los campos del form.
-        //Si viene la petición POST del form
-        //if($form->isSubmitted())
-        if($form->isSubmitted()) //Controla que el token sea válido
+        if($form->isSubmitted()) //Si viene la petición POST del form
         {
-            if ($this->isCsrfTokenValid('generico',$submittedToken)) {
+            if ($this->isCsrfTokenValid('generico',$submittedToken)) { //Controla que el token sea válido
                 $campos = $form->getData(); //Guarda la data del form en $campos.
                 print_r($campos);
-                echo "Nombre:".$campos['name']; //Se utiliza esta forma para obtener los datos de un input en particular, cuando a createFormBuilder se le pasa null. Con entidades es distinto.
+                echo "Nombre:".$game->getName(); //Se utiliza esta forma para obtener los datos de un input en particular, cuando a createFormBuilder se le pasa null. Con entidades es distinto.
                 die;
             } else {
                 $this->addFlash('css','danger'); //Agrego un msj flash con el css de un alert de bootstrap de color warning.
