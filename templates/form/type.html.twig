@@ -1,0 +1,48 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Formulario Type{% endblock %}
+
+{% block main %}
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <h1 class="text-center">Formulario Type</h1>
+        <form style="width:50%;" class="mt-5" method="POST" action="{{url('form_type')}}">
+            <div class="form-group d-flex flex-column">
+                <label class="mb-3" for="form_name">
+                    Nombre:
+                    {{form_widget(form.name, {"attr":{"placeholder":"Nombre"}})}}
+                </label>
+                <label class="mb-3" for="form_image">
+                    Imagen:
+                    {{form_widget(form.image)}}
+                </label>
+                <label class="mb-3" for="form_description">
+                    Descripción:
+                    {{form_widget(form.description, {"attr":{"placeholder":"Descripción"}})}}
+                </label>
+                <label class="mb-3" for="form_platform">
+                    Plataforma:
+                    {{form_widget(form.platform)}}
+                </label>
+                <label class="mb-3" for="form_gender">
+                    Género:
+                    {{form_widget(form.gender)}}
+                </label>
+                <label class="mb-3" for="form_url">
+                    Sitio web:
+                    {{form_widget(form.url, {"attr":{"placeholder":"Url"}})}}
+                </label>
+                <input type="hidden" name="token" value="{{csrf_token('generico')}}">
+                <input type="submit" value="Enviar" title="Enviar" class="btn btn-success" />
+            </div>
+        </form>
+        <!-- Msj de error de token -->
+        {# Recorro app.flashes que es nativo de symfony, y si hay algun msj llamado 'mensaje' lo guardo en 'message'. #}
+        {% for message in app.flashes('mensaje') %}
+            <div style="width:50%;" class="alert alert-{{ app.flashes('css')[0] }} alert-dismissible fade show mt-4 float-start" role="alert"> {# le inserto el valor del msj flash 'css' que en este caso es 'warning' #}
+                {{ message }}
+                <button tyle="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        <!-- Fin msj de error de token -->
+    </div>
+{% endblock %}

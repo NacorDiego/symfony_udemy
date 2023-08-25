@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Game; //Importo la entidad Game.
+use App\Entity\GameForm; //Importo la entidad Game.
+use App\Form\GameFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request; //Nos va a ayudar a recibir los campos de nuestro form.
@@ -104,5 +106,14 @@ class FormController extends AbstractController
             }
         }
         return $this->render('form/entity.html.twig', compact('form')); //Mediante el helper 'compact()' paso el $form al template
+    }
+
+    //FORMULARIO TYPE
+    #[Route('/form/type', name: 'form_type')]
+    public function type( Request $request ): Response
+    {
+        $gameForm = new GameForm();
+        $form = $this->createForm(GameFormType::class, $gameForm); // Creo el formulario con 'createForm()' y paso como argumento la clase 'GameFormType' y la instancia a la cual la voy a asociar '$game'
+        return $this->render('form/type.html.twig', compact('form')); //Mediante el helper 'compact()' paso el $form al template
     }
 }
