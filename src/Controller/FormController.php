@@ -75,6 +75,7 @@ class FormController extends AbstractController
     }
 
     //FORMULARIO ENTITY
+    // Esta manera de crear formularios es muy útil y se usa mucho cuando NO HAY BASES DE DATOS de por medio.
     #[Route('/form/entity', name: 'form_entity')]
     public function entity( Request $request ): Response
     {
@@ -109,11 +110,27 @@ class FormController extends AbstractController
     }
 
     //FORMULARIO TYPE
+    // Esta es la forma más tradicional de trabajar con formularios en Symfony CUANDO HAY BASES DE DATOS de por medio.
     #[Route('/form/type', name: 'form_type')]
     public function type( Request $request ): Response
     {
-        $gameForm = new GameForm();
+        $gameForm = new GameForm(); // Creo una instancia de la clase GameForm.
         $form = $this->createForm(GameFormType::class, $gameForm); // Creo el formulario con 'createForm()' y paso como argumento la clase 'GameFormType' y la instancia a la cual la voy a asociar '$game'
+        $form->handleRequest($request); //Permite recibir los campos del form.
+        $submittedToken=$request->request->get('token'); //Permite recibir el token del formulario y guardarlo en la variable.
+        if($form->isSubmitted()) //Si viene la petición POST del form
+        {
+            if ($this->isCsrfTokenValid('generico',$submittedToken)) { //Controla que el token sea válido
+                $campos = $form->getData(); //Guarda la data del form en $campos.
+                print_r($campos);
+                echo "Nombre:".$gameForm->getName(); //Se utiliza esta forma para obtener los datos de un input en particular, cuando a createFormBuilder se le pasa null. Con entidades es distinto.
+                die;
+            } else {
+                $this->addFlash('css','danger'); //Agrego un msj flash con el css de un alert de bootstrap de color warning.
+                $this->addFlash('mensaje','La validación de token falló.'); //Agrego un msj flash con el texto del msj que quiero mostrar.
+                return $this->redirectToRoute('form_type'); //Redirecciono a la misma vista para que se recargue la página.
+            }
+        }
         return $this->render('form/type.html.twig', compact('form')); //Mediante el helper 'compact()' paso el $form al template
     }
 }
