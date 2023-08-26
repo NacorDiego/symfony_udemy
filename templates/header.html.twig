@@ -9,6 +9,25 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('home_inicio') }}">Inicio</a>
 					</li>
+					<li class="nav-item dropdown">
+						<button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+							Formularios
+						</button>
+						<ul class="dropdown-menu position-absolute">
+							<li>
+								<a class="dropdown-item" href="{{ path('form_simple') }}">Formulario Simple</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('form_bootstrap') }}">Formulario con Bootstrap</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('form_entity') }}">Formulario Entity</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('form_type') }}">Formulario Type</a>
+							</li>
+						</ul>
+					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('genders_home') }}">Géneros</a>
 					</li>
