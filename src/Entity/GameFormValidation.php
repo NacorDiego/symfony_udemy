@@ -7,12 +7,16 @@ use Symfony\Component\Validator\Constraints as Assert; // Importo 'Assert' del c
 class GameFormValidation
 {
     //Atributos
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'El campo Nombre es obligatorio.')]
     protected $name;
     protected $image;
+    #[Assert\NotBlank(message: 'El campo Descripción es obligatorio.')]
     protected $description;
+    #[Assert\Positive(message: 'Se debe seleccionar una Plataforma.')]
     protected $platform;
+    #[Assert\Positive(message: 'Se debe seleccionar un Género.')]
     protected $gender;
+    #[Assert\Url]
     protected $url;
 
     //Métodos

@@ -143,6 +143,7 @@ class FormController extends AbstractController
     {
         $gameFormValidation = new GameFormValidation();
         $form = $this->createForm(GameFormValidationType::class, $gameFormValidation);
+        $form->handleRequest($request); //Permite recibir los campos del form.
         $submittedToken = $request->request->get('token'); //Permite recibir el token del formulario y guardarlo en la variable.
         if ($form->isSubmitted()) // Si el formulario fue submiteado
         {
