@@ -9,6 +9,17 @@ class GameFormUpload
     //Atributos
     #[Assert\NotBlank(message: 'El campo Nombre es obligatorio.')]
     protected $name;
+    #[Assert\File( // Le agrego validaciones a la subida de imagenes.
+        maxSize: "10M", // Restriccion de tamaño: Que no tenga más de 10mb
+        mimeTypes: // Restricción de mimetypes: Que solo sea jpeg, jpg o png
+        [
+            "image/jpeg",
+            "image/jpg",
+            "image/png"
+        ],
+        mimeTypesMessage: 'La imagen debe ser JPEG, JPG o PNG.',
+        maxSizeMessage: 'La imagen no puede pesar más de 10mb.',
+    )]
     protected $image;
     #[Assert\NotBlank(message: 'El campo Descripción es obligatorio.')]
     protected $description;
