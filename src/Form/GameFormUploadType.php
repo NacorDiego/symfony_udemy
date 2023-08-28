@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\GameFormValidation; // Importo la entidad
+use App\Entity\GameFormUpload; // Importo la entidad
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -11,13 +11,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GameFormValidationType extends AbstractType
+class GameFormUploadType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, ['label' => 'Name','required' => false])
-            ->add('image', FileType::class, ['label' => 'Image','required' => false])
+            ->add('image', FileType::class, ['label' => 'Image','required' => false, 'mapped' => true])
             ->add('description', TextareaType::class, ['label' => 'Description','required' => false])
             ->add('platform', ChoiceType::class, [
                 'choices' => [
@@ -45,7 +45,7 @@ class GameFormValidationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => GameFormValidation::class,
+            'data_class' => GameFormUpload::class,
             'csrf_protection' => true,
             'csrf_field_name' => '_token'
         ]);

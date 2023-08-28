@@ -1,0 +1,61 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Formulario Upload{% endblock %}
+
+{% block main %}
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <h1 class="text-center">Formulario Upload</h1>
+        <form style="width:50%;" class="mt-5" method="POST" action="{{url('form_upload')}}" enctype="multipart/form-data"> {# El enctype siempre hay que ponerlo si se va a subir archivos en el formulario. #}
+            <div class="form-group d-flex flex-column">
+                <label class="mb-3" for="game_form_validation_name">
+                    Nombre:
+                    {{form_widget(form.name, {"attr":{"placeholder":"Ingrese el nombre"}})}}
+                </label>
+                <label class="mb-3" for="game_form_validation_image">
+                    Imagen:
+                    {{form_widget(form.image)}}
+                </label>
+                <label class="mb-3" for="game_form_validation_description">
+                    Descripción:
+                    {{form_widget(form.description, {"attr":{"placeholder":"Ingrese una descripción"}})}}
+                </label>
+                <label class="mb-3" for="game_form_validation_platform">
+                    Plataforma:
+                    {{form_widget(form.platform)}}
+                </label>
+                <label class="mb-3" for="game_form_validation_gender">
+                    Género:
+                    {{form_widget(form.gender)}}
+                </label>
+                <label class="mb-3" for="game_form_validation_url">
+                    Sitio web:
+                    {{form_widget(form.url, {"attr":{"placeholder":"Ingrese la url"}})}}
+                </label>
+                <input type="hidden" name="token" value="{{csrf_token('generico')}}">
+                <input type="submit" value="Enviar" title="Enviar" class="btn btn-success" />
+            </div>
+        </form>
+        <!-- Msjs de error de validación del form -->
+            {% if errors %}
+                <div style="width:50%;" class="alert alert-danger alert-dismissible fade show mt-4 float-start">
+                    <ul class="my-0 py-0">
+                        {% for error in errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                    <button tyle="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        <!-- Fin msjs de error de validación del form -->
+
+        <!-- Msj de error de token -->
+        {# Recorro app.flashes que es nativo de symfony, y si hay algun msj llamado 'mensaje' lo guardo en 'message'. #}
+        {% for message in app.flashes('mensaje') %}
+            <div style="width:50%;" class="alert alert-{{ app.flashes('css')[0] }} alert-dismissible fade show mt-4 float-start" role="alert"> {# le inserto el valor del msj flash 'css' que en este caso es 'warning' #}
+                {{ message }}
+                <button tyle="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        <!-- Fin msj de error de token -->
+    </div>
+{% endblock %}

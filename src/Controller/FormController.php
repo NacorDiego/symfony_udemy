@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Game; //Importo la ENTIDAD 'Game'.
 use App\Entity\GameForm; //Importo la ENTIDAD 'GameForm'.
 use App\Entity\GameFormValidation; // Importo la ENTIDAD 'GameFormValidation'
+use App\Entity\GameFormUpload; // Importo la ENTIDAD 'GameFormValidation'
 use App\Form\GameFormType; // Importo el FORMULARIO 'GameFormType'
 use App\Form\GameFormValidationType; // Importo el FORMULARIO 'GameFormValidationType'
+use App\Form\GameFormUploadType; // Importo el FORMULARIO 'GameFormValidationType'
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request; //Nos va a ayudar a recibir los campos de nuestro form.
@@ -15,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FormController extends AbstractController
@@ -165,5 +168,53 @@ class FormController extends AbstractController
             }
         }
         return $this->render('form/validacion.html.twig', ['form' => $form, 'errors' => array()]); // Le paso a la vista el formulario de la forma tradicional, no con compact(). Paso 'errors' como un array vacío para que no me de problemas en las validaciones.
+    }
+
+    //FORMULARIO UPLOAD
+    #[Route('/form/upload', name: 'form_upload')]
+    public function upload(Request $request, ValidatorInterface $validator): Response
+    {
+        $gameFormUpload = new GameFormUpload();
+        $form = $this->createForm(GameFormUploadType::class, $gameFormUpload);
+        $form->handleRequest($request); //Permite recibir los campos del form.
+        $submittedToken = $request->request->get('token'); //Permite recibir el token del formulario y guardarlo en la variable.
+        if ($form->isSubmitted()) // Si el formulario fue submiteado
+        {
+            if ($this->isCsrfTokenValid('generico', $submittedToken)) {
+                $errors = $validator->validate($gameFormUpload); //Valida la instancia de la entidad 'gameFormUpload'. Los errores que ocurran en la validacion quedan guardados en '$errors'
+                if (count($errors) > 0) // Si la variable $errors es mayor que 0 entonces quiere decir que se generó algun error en la validación.
+                {
+                    return $this->render('form/upload.html.twig', ['form' => $form, 'errors' => $errors]); // Le paso a la vista el formulario de la forma tradicional, no con compact(). Paso la variable 'errors' con los errores para trabajarlo en la vista.
+                } else {
+                    $image = $form -> get('image')->getData(); // Guardo el valor de la Imagen 'image' en $image.
+                    if ($image)
+                    {
+                        $newFileName = time().'.'.$image->guessExtension(); // Le coloco un nombre especifico para almacenar la imagen y que no se repita.
+                        try
+                        {
+                            // Upload de la imagen
+                            $image->move(
+                                $this->getParameter('images_directory'), // Se le pasa el nombre del directorio que se creo en services.yaml/parameters
+                                $newFileName // Paso el nombre único que le doy a la imagen.
+                            );
+                        } catch (FileException $e)
+                        {
+                            // Si hubo alguna excepción a la hora de querer subir la imagen
+                            throw new \Exception("mensaje", 'Ups! ocurrió un error al intentar subir el archivo.');
+                        }
+                        $gameFormUpload->setImage($newFileName); // Le cambio el nombre por el nuevo generado para que no se repita.
+                    }
+                    $campos = $form->getData(); //Guarda la data del form en $campos.
+                    print_r($campos);
+                    echo "Nombre:" . $gameFormUpload->getName(); //Se utiliza esta forma para obtener los datos de un input en particular, cuando a createFormBuilder se le pasa null. Con entidades es distinto.
+                    die;
+                }
+            } else {
+                $this->addFlash('css', 'danger'); //Agrego un msj flash con el css de un alert de bootstrap de color warning.
+                $this->addFlash('mensaje', 'La validación de token falló.'); //Agrego un msj flash con el texto del msj que quiero mostrar.
+                return $this->redirectToRoute('form_upload'); //Redirecciono a la misma vista para que se recargue la página.
+            }
+        }
+        return $this->render('form/upload.html.twig', ['form' => $form, 'errors' => array()]);
     }
 }
