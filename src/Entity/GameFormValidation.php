@@ -16,7 +16,7 @@ class GameFormValidation
     protected $platform;
     #[Assert\Positive(message: 'Se debe seleccionar un Género.')]
     protected $gender;
-    #[Assert\Url]
+    #[Assert\NotBlank(message: 'El campo Sitio web es obligatorio.'), Assert\Url(message: 'La url {{ value }} no es válida.')]
     protected $url;
 
     //Métodos

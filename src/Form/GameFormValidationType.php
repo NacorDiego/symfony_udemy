@@ -40,7 +40,7 @@ class GameFormValidationType extends AbstractType
                     'Terror' => 5
                 ],'required' => false,'placeholder' => false
             ])
-            ->add('url', UrlType::class, ['label' => 'Sitio web','required' => false]);
+            ->add('url', TextType::class, ['label' => 'Sitio web','required' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
