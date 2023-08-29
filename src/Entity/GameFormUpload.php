@@ -9,6 +9,7 @@ class GameFormUpload
     //Atributos
     #[Assert\NotBlank(message: 'El campo Nombre es obligatorio.')]
     protected $name;
+
     #[Assert\File( // Le agrego validaciones a la subida de imagenes.
         maxSize: "10M", // Restriccion de tamaño: Que no tenga más de 10mb
         mimeTypes: // Restricción de mimetypes: Que solo sea jpeg, jpg o png
@@ -21,13 +22,27 @@ class GameFormUpload
         maxSizeMessage: 'La imagen no puede pesar más de 10mb.',
     )]
     protected $image;
-    #[Assert\NotBlank(message: 'El campo Descripción es obligatorio.')]
+
+    #[Assert\NotBlank(message: 'El campo Descripción es obligatorio.'),
+    Assert\Length(
+        max: 255,
+        maxMessage: 'Se sobrepasó el máximo de 255 caracteres permitidos en la descripción.'
+    )]
     protected $description;
+
     #[Assert\Positive(message: 'Se debe seleccionar una Plataforma.')]
     protected $platform;
+
     #[Assert\Positive(message: 'Se debe seleccionar un Género.')]
     protected $gender;
-    #[Assert\NotBlank(message: 'El campo Sitio web es obligatorio.'), Assert\Url(message: 'La url {{ value }} no es válida.')]
+
+    #[Assert\NotBlank(message: 'El campo Sitio web es obligatorio.'),
+    Assert\Length(
+        max: 80,
+        maxMessage: 'Se sobrepasó el máximo de 80 caracteres permitidos en la url.'
+    ),
+    Assert\Url(message: 'La url {{ value }} no es válida.'
+    )]
     protected $url;
 
     //Métodos
